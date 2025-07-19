@@ -23,10 +23,10 @@ A professional-grade machine learning web application to detect fake news using 
 📸 Screenshots
 
 🏠 Home Page
-![Home Page](assets/Screenshot 2025-07-20 002647)
+![Home Page](assets/screenshot_home.png)
 
 🔍 Prediction Output
-![Prediction Output](assets/Screenshot 2025-07-20 002731)
+![Prediction Output](assets/screenshot_prediction.png)
 
 📂 Project Structure
 
