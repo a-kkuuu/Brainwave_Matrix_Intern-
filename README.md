@@ -28,6 +28,8 @@ A professional-grade machine learning web application to detect fake news using 
 🔍 Prediction Output
 ![Prediction Output](assets/screenshot_prediction.png)
 
+🔗 **Live Demo**: [Click here to try the app](https://afakenewsdetector.streamlit.app/)
+
 📂 Project Structure
 
 ├── app.py # Streamlit web app
@@ -47,8 +49,6 @@ A professional-grade machine learning web application to detect fake news using 
 yaml
 Copy code
 
-
-
 ## 🛠️ Tech Stack
 
 - Python 3.10
@@ -60,14 +60,18 @@ Copy code
 ▶️ How to Run Locally
 
 bash
+
 # 1. Clone the repository
+
 git clone https://github.com/a-kkuuu/Brainwave_Matrix_Intern-.git
 cd Brainwave_Matrix_Intern-
 
 # 2. Install dependencies
+
 pip install -r requirements.txt
 
 # 3. Run the Streamlit app
+
 streamlit run app.py
 
 🧪 Example
@@ -84,8 +88,6 @@ GitHub: https://github.com/a-kkuuu
 🌟 Star This Repo!
 If you found this helpful or interesting, feel free to ⭐ star the repo to support the project!
 
-
-
 ✅ Next Steps
 
 1. Save this as README.md in your root folder.
@@ -95,4 +97,4 @@ If you found this helpful or interesting, feel free to ⭐ star the repo to supp
    git add README.md
    git commit -m "Final polished README with screenshots and details"
    git push
-Visit your GitHub repo and enjoy your professional-looking homepage! 😄
+   Visit your GitHub repo and enjoy your professional-looking homepage! 😄

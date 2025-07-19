@@ -1,0 +1,184 @@
+# quick_start.py - Run this to get started immediately
+
+import os
+import subprocess
+import sys
+
+def install_requirements():
+    """Install required packages"""
+    packages = [
+        'pandas', 'numpy', 'scikit-learn', 
+        'matplotlib', 'seaborn', 'nltk'
+    ]
+    
+    print("Installing required packages...")
+    for package in packages:
+        try:
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+            print(f"✅ {package} installed successfully")
+        except subprocess.CalledProcessError:
+            print(f"❌ Failed to install {package}")
+
+def create_project_structure():
+    """Create project folders"""
+    folders = ['data', 'models', 'notebooks', 'results']
+    
+    for folder in folders:
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+            print(f"📁 Created folder: {folder}")
+
+def download_sample_data():
+    """Create sample dataset for testing"""
+    import pandas as pd
+    
+    # Expanded sample dataset
+    sample_data = {
+        'text': [
+            # Real news examples
+            "The Federal Reserve announced today that interest rates will remain unchanged for the third consecutive quarter, citing stable economic indicators and moderate inflation levels.",
+            "Scientists at Stanford University have published new research in Nature journal showing promising results in early-stage Alzheimer's treatment trials.",
+            "The Department of Education released its annual report showing a 3% increase in high school graduation rates across all demographic groups nationwide.",
+            "Local weather services predict partly cloudy skies with temperatures reaching 75°F this weekend, with a slight chance of rain on Sunday evening.",
+            "The technology sector showed mixed results in quarterly earnings, with cloud computing companies outperforming traditional hardware manufacturers.",
+            "City council approved the new public transportation budget, allocating $50 million for bus route expansion and infrastructure improvements.",
+            "University researchers have developed a new water purification system that could help provide clean drinking water in developing countries.",
+            "The annual charity marathon raised $2.3 million for local homeless shelters, exceeding last year's total by 15 percent.",
+            "Agricultural experts report that this year's harvest season is proceeding normally despite earlier concerns about drought conditions.",
+            "The new renewable energy plant is expected to power 100,000 homes when it becomes operational next spring.",
+            
+            # Fake news examples
+            "BREAKING: Government officials confirm that aliens have been living among us for decades, secret documents reveal shocking truth!",
+            "This one weird trick discovered by a mom will make you lose 50 pounds in just 2 weeks - doctors hate her!",
+            "URGENT: New study proves that drinking coffee backwards can cure cancer - big pharma doesn't want you to know!",
+            "SHOCKING: Local teacher becomes millionaire overnight using this simple investment strategy - banks are furious!",
+            "You won't believe what this celebrity looked like before becoming famous - the transformation will shock you!",
+            "EXPOSED: The government has been adding mind control chemicals to tap water for years, leaked documents confirm!",
+            "This miracle fruit burns fat while you sleep - lose 30 pounds without diet or exercise, guaranteed results!",
+            "BREAKING: Time traveler from 2087 warns about upcoming disasters, provides detailed predictions for next decade!",
+            "Scientists discover that eating this common food can extend your life by 50 years - the secret will amaze you!",
+            "ALERT: Popular smartphone apps are secretly recording everything you say and selling it to foreign governments!"
+        ],
+        'label': [0]*10 + [1]*10  # First 10 are real (0), next 10 are fake (1)
+    }
+    
+    df = pd.DataFrame(sample_data)
+    df.to_csv('data/sample_dataset.csv', index=False)
+    print("📊 Created sample dataset: data/sample_dataset.csv")
+    print(f"Dataset contains {len(df)} articles ({sum(df['label']==0)} real, {sum(df['label']==1)} fake)")
+
+def create_main_script():
+    """Create the main detector script"""
+    main_script = '''# main.py - Your main fake news detector
+from fake_news_detector import FakeNewsDetector
+import pandas as pd
+
+def main():
+    print("🔍 Fake News Detection System")
+    print("=" * 40)
+    
+    # Initialize detector
+    detector = FakeNewsDetector()
+    
+    # Load sample data
+    try:
+        print("Loading dataset...")
+        df = detector.load_and_prepare_data("data/sample_dataset.csv")
+        
+        # Display dataset info
+        print(f"Dataset loaded: {len(df)} articles")
+        print(f"Real news: {sum(df['label']==0)}")
+        print(f"Fake news: {sum(df['label']==1)}")
+        
+        # Train models
+        print("\\nTraining models...")
+        from sklearn.model_selection import train_test_split
+        
+        X = df['processed_text']
+        y = df['label']
+        
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.3, random_state=42, stratify=y
+        )
+        
+        # Vectorize
+        X_train_vec = detector.vectorizer.fit_transform(X_train)
+        X_test_vec = detector.vectorizer.transform(X_test)
+        
+        # Train and compare models
+        results = detector.train_models(X_train_vec, y_train, X_test_vec, y_test)
+        
+        # Test with custom articles
+        print("\\n" + "="*50)
+        print("Testing with custom articles:")
+        print("="*50)
+        
+        test_articles = [
+            "The mayor announced new funding for public schools in yesterday's city council meeting.",
+            "You won't believe this shocking secret that doctors don't want you to know!",
+            "Research team publishes findings on climate change impacts in peer-reviewed journal."
+        ]
+        
+        for i, article in enumerate(test_articles, 1):
+            print(f"\\nTest {i}: {article}")
+            detector.predict_news(article)
+            
+    except FileNotFoundError:
+        print("❌ Sample dataset not found. Run setup first!")
+    except Exception as e:
+        print(f"❌ Error: {e}")
+
+if __name__ == "__main__":
+    main()
+'''
+    
+    with open('main.py', 'w') as f:
+        f.write(main_script)
+    print("📝 Created main.py script")
+
+def main():
+    print("🚀 Fake News Detection Project - Quick Setup")
+    print("=" * 50)
+    
+    # Step 1: Install packages
+    print("\\n📦 Step 1: Installing required packages...")
+    try:
+        install_requirements()
+    except Exception as e:
+        print(f"⚠️  Warning: {e}")
+        print("You may need to install packages manually:")
+        print("pip install pandas numpy scikit-learn matplotlib seaborn nltk")
+    
+    # Step 2: Create project structure
+    print("\\n📁 Step 2: Creating project structure...")
+    create_project_structure()
+    
+    # Step 3: Create sample data
+    print("\\n📊 Step 3: Creating sample dataset...")
+    try:
+        download_sample_data()
+    except Exception as e:
+        print(f"❌ Error creating sample data: {e}")
+    
+    # Step 4: Create main script
+    print("\\n📝 Step 4: Creating main script...")
+    create_main_script()
+    
+    print("\\n" + "="*50)
+    print("✅ Setup Complete!")
+    print("="*50)
+    print("\\nNext steps:")
+    print("1. Copy the FakeNewsDetector class code to 'fake_news_detector.py'")
+    print("2. Run: python main.py")
+    print("3. For real data, download from Kaggle and replace sample dataset")
+    print("\\nProject structure created:")
+    print("├── data/sample_dataset.csv")  
+    print("├── models/")
+    print("├── main.py")
+    print("└── fake_news_detector.py (you need to create this)")
+    
+    print("\\n🎯 Ready to start your internship project!")
+
+if __name__ == "__main__":
+    main()
+
